@@ -1,0 +1,25 @@
+{
+  "name": "pagina-de-anuncios",
+  "version": "1.0.0",
+  "description": "Página de anúncios com foco no backend utilizando o Node e MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoaoVitor2310/pagina-de-anuncios.git"
+  },
+  "author": "Jay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoaoVitor2310/pagina-de-anuncios/issues"
+  },
+  "homepage": "https://github.com/JoaoVitor2310/pagina-de-anuncios#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.17.0"
+  }
+}
