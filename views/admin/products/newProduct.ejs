@@ -1,0 +1,33 @@
+<%- include ('../../partials/header.ejs') %>
+<body>
+    <%- include ('../../partials/navbar.ejs') %>
+    <div class="container">
+        <div class="card mt-3">
+            <div class="card-header">
+                <h2>Cadastro de produto</h2>
+            </div>
+            <div class="card-body">
+                <form action="/products/save" method="POST">
+                    <label>Nome:</label>
+                    <input class="form-control" type="text" name="title" placeholder="Digite o nome do produto">
+                    <label class="mt-2">Descrição:</label>
+                    <textarea name="description" rows="5" placeholder="Digite a descrição do produto" class="form-control mt-2"></textarea>
+                    <label class="mt-2">Preço:</label>
+                    <input type="number" name="price" placeholder="Digite o preço em reais" class="form-control mt-2">
+                    <label class="mt-2">Categoria:</label>
+                    <select name="category" class="form-control">
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category.id %>"><%= category.title %></option>
+                        <% }) %>
+                    </select>
+                    <button class="btn btn-success mt-3">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+        
+        
+    </div>  
+
+
+</body>
+<%- include ('../../partials/footer.ejs') %> 

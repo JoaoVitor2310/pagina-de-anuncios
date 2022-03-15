@@ -1,6 +1,8 @@
 <%- include ('../../partials/header.ejs') %>
 <body>
+    <%- include ('../../partials/navbar.ejs') %>
     <div class="container">
+        
         <h1>Categorias</h1>
         <a href="/admin/categories/new" class="btn btn-success"> Criar nova categoria</a>
     <hr>
@@ -36,3 +38,12 @@
 
 </body>
 <%- include ('../../partials/footer.ejs') %> 
+<script>
+    function confirmarDelecao(event, form){
+        event.preventDefault();
+        let decision = confirm("Você quer deletar este artigo?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>

@@ -32,7 +32,7 @@ router.get('/admin/categories/edit/:id', (req,res) => {
     let id = req.params.id;
     if(id != isNaN){
         Category.findByPk(id).then(category => {
-            res.render('admin/categories/edit', {category: category});
+            res.render('admin/categories/editCategory', {category: category});
         }).catch(error => {
             res.redirect('/categories');
         })
@@ -49,6 +49,17 @@ router.post('/categories/update', (req,res) => {
             id: id
         }
     }).then(() =>{
+        res.redirect('/admin/categories');
+    })
+});
+
+router.post('/categories/delete', (req, res) => {
+    let id = req.body.id;
+    Category.findByPk(id).then( category => {
+        Category.destroy({where:{id: id}}).then(() => {
+            res.redirect('/');
+        })
+    }).catch(() => {
         res.redirect('/admin/categories');
     })
 });
