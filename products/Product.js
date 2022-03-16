@@ -11,12 +11,16 @@ const Product = connection.define('products', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    // photo:{
+    //     type: Sequelize.BLOB('long'),
+    //     allowNull: true
+    // },
     description:{
         type: Sequelize.TEXT,
         allowNull: false
     },
     price:{
-        type: Sequelize.DECIMAL,
+        type: Sequelize.FLOAT,
         allowNull: false
     }
 })

@@ -25,7 +25,9 @@ app.use('/', categoriesController);
 app.use('/', productsController);
 
 app.get('/', (req,res) => {
-    res.render('index');
+    Product.findAll().then( products => {
+        res.render('index', {products: products});
+    });
 });
 
 app.listen(3000, () => {

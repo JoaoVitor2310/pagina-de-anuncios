@@ -8,7 +8,24 @@
         <a href="/admin/categories/new" class="btn btn-success">Nova categoria</a>
         <a href="/admin/products/new" class="btn btn-success">Novo produto</a>
 
-        
+            
+        <% products.forEach( product => { %>
+            <div class="card mt-3">
+                <div class="card-header ">
+                    <h2><%= product.title %></h2>
+                </div>
+                <div class="card-body">
+                    Imagem
+                </div>
+                <div class="card-footer">
+                    <a href="/product/<%= product.slug %>" class="btn btn-success">Ver produto</a>
+                </div>
+            </div>
+        <% }) %>
+            <!-- <div class="row mb-2" style="float: right">
+                <a href="/products/page/2">Próxima página</a>
+            </div> -->
+
 
     </div>
     

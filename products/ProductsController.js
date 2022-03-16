@@ -9,7 +9,7 @@ router.get('/products', (req,res) => {
         include: [{model: Category}]
     }).then( products => {
         res.render('admin/products/products', {products: products});
-    })
+    });
 });
 
 router.get('/admin/products/new', (req,res) => {
@@ -20,18 +20,35 @@ router.get('/admin/products/new', (req,res) => {
 
 router.post('/products/save', (req,res) => {
     let title = req.body.title;
+    //let photo = req.body.photo;
     let description = req.body.description;
     let price = req.body.price;
-    let category = req.body.categoy;
+    let category = req.body.category;
 
-    Products.create({
+    Product.create({
         title: title,
         slug: slugify(title),
+        // photo: photo,
         description: description,
         price: price,
         categoryId: category
     }).then( () => {
-        res.redirect('/products')
+        res.redirect('/products');
+    });
+});
+
+router.get('/product/:slug', (req,res) => {
+    let slug = req.params.slug;
+    Product.findOne({where:{
+        slug: slug
+    }}).then( product => {
+        if(product != undefined){
+            Category.findAll().then(categories => {
+                res.render('productPage', {product: product, categories: categories});
+            });
+        }else{
+            res.redirect('/');
+        }
     });
 });
 
