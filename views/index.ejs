@@ -6,13 +6,11 @@
         <h1>Bem vindo ao MarketPlace de produtos usados!</h1>
         <hr>
         <a href="/admin/categories/new" class="btn btn-success">Nova categoria</a>
-        <a href="/admin/products/new" class="btn btn-success">Novo produto</a>
-
-            
+        <a href="/admin/products/new" class="btn btn-success">Novo produto</a>            
         <% products.forEach( product => { %>
             <div class="card mt-3">
                 <div class="card-header ">
-                    <h2><%= product.title %></h2>
+                    <h2><%= product.title %> | R$<%= product.price%></h2>
                 </div>
                 <div class="card-body">
                     Imagem

@@ -25,7 +25,11 @@ app.use('/', categoriesController);
 app.use('/', productsController);
 
 app.get('/', (req,res) => {
-    Product.findAll().then( products => {
+    
+    Product.findAll({
+        order:[ ['id','DESC'] ],
+        limit: 4
+    }).then( products => {
         res.render('index', {products: products});
     });
 });

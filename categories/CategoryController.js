@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 //const Category = require('')
 const slugify = require('slugify');
+const Product = require('../products/Product');
 const Category = require('./Category');
 
 router.get('/admin/categories/new', (req,res) => {
@@ -49,18 +50,22 @@ router.post('/categories/update', (req,res) => {
             id: id
         }
     }).then(() =>{
-        res.redirect('/admin/categories');
+        res.redirect('/categories');
     })
 });
 
 router.post('/categories/delete', (req, res) => {
     let id = req.body.id;
     Category.findByPk(id).then( category => {
-        Category.destroy({where:{id: id}}).then(() => {
-            res.redirect('/');
+        Product.destroy({where:{
+            categoryId: id
+        }}).then(() => {
+            Category.destroy({where:{id: id}}).then(() => {
+                res.redirect('/');
+            })
         })
     }).catch(() => {
-        res.redirect('/admin/categories');
+        res.redirect('/categories');
     })
 });
 
