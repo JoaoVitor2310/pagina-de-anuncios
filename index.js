@@ -4,6 +4,8 @@ const connection = require('./database/database');
 const categoriesController = require('./categories/CategoryController');
 const productsController = require('./products/ProductsController');
 const usersController = require('./users/UsersController');
+const session = require('express-session')
+//const isOwner = require('./middlewares/isOwner');
 
 const Category = require('./categories/Category');
 const Product = require('./products/Product');
@@ -32,13 +34,12 @@ app.use('/', categoriesController);
 app.use('/', productsController);
 app.use('/', usersController);
 
-app.get('/', (req,res) => {
-    
+app.get('/',(req,res) => {
     Product.findAll({
         order:[ ['id','DESC'] ],
         limit: 4
     }).then( products => {
-        res.render('index', {products: products});
+        res.render('index', {products: products, user: req.session.user});
     });
 });
 

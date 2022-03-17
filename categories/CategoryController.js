@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//const Category = require('')
 const slugify = require('slugify');
+
 const Product = require('../products/Product');
 const Category = require('./Category');
 
 router.get('/admin/categories/new', (req,res) => {
-    res.render('admin/categories/newCategory');
+    res.render('admin/categories/newCategory', {user: req.session.user});
 });
 
 router.post('/categories/save', (req,res) => {
@@ -16,10 +16,10 @@ router.post('/categories/save', (req,res) => {
             title: title,
             slug: slugify(title)
         }).then(() => {
-            res.redirect('/categories/page/1');
+            res.redirect('/categories/page/1', {user: req.session.user});
         })
     }else{  
-        res.redirect('/admin/categories/new');
+        res.redirect('/admin/categories/new', {user: req.session.user});
     }
 });
 
@@ -54,7 +54,7 @@ router.get('/categories/page/:num', (req,res) => {
         //     res.render('index', {products: products});
         // }
         Product.findAll().then(products => {
-            res.render('admin/categories/pagecategories', {result: result, products: products});
+            res.render('admin/categories/pagecategories', {result: result, products: products, user: req.session.user});
         });
     });
     // Category.findAll().then(categories => {
@@ -64,7 +64,7 @@ router.get('/categories/page/:num', (req,res) => {
 
 router.get('/admin/categories', (req,res) => {
     Category.findAll().then(categories => {
-        res.render('admin/categories/categories', {categories: categories})
+        res.render('admin/categories/categories', {categories: categories, user: req.session.user})
     });
 });
 
@@ -72,12 +72,12 @@ router.get('/admin/categories/edit/:id', (req,res) => {
     let id = req.params.id;
     if(id != isNaN){
         Category.findByPk(id).then(category => {
-            res.render('admin/categories/editCategory', {category: category});
+            res.render('admin/categories/editCategory', {category: category, user: req.session.user});
         }).catch(error => {
-            res.redirect('/categories');
+            res.redirect('/categories', {user: req.session.user});
         })
     }else{
-        res.redirect('/categories');
+        res.redirect('/categories', {user: req.session.user});
     }
 });
 
@@ -89,7 +89,7 @@ router.post('/categories/update', (req,res) => {
             id: id
         }
     }).then(() =>{
-        res.redirect('/categories');
+        res.redirect('/categories', {user: req.session.user});
     })
 });
 
@@ -100,11 +100,11 @@ router.post('/categories/delete', (req, res) => {
             categoryId: id
         }}).then(() => {
             Category.destroy({where:{id: id}}).then(() => {
-                res.redirect('/');
+                res.redirect('/', {user: req.session.user});
             })
         })
     }).catch(() => {
-        res.redirect('/categories');
+        res.redirect('/categories', {user: req.session.user});
     })
 });
 

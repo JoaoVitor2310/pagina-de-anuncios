@@ -3,7 +3,7 @@ const router = express.Router();
 const slugify = require('slugify');
 const Category = require('../categories/Category');
 const Product = require('./Product');
-
+const adminAuth = require('../middlewares/adminAuth');
 
 router.get('/products/page/:num', (req,res) => {
     let page = req.params.num;
@@ -36,20 +36,24 @@ router.get('/products/page/:num', (req,res) => {
         //     res.render('index', {products: products});
         // }
         Category.findAll().then(categories => {
-            res.render('admin/products/pageProducts', {result: result, categories: categories});
+            res.render('admin/products/pageProducts', {result: result, categories: categories, user: req.session.user});
         });
     });
 });
 
 router.get('/admin/products/new', (req,res) => {
     Category.findAll().then(categories => {
-        res.render('admin/products/newProduct', {categories: categories});
+        res.render('admin/products/newProduct', {categories: categories, user: req.session.user});
     })
 });
 
-// router.get('/admin/products', (req,res) =>{
-//     ROTA PARA GERENCIAR PRODUTOS 
-// });
+router.get('/admin/products', adminAuth, (req,res) =>{
+    Product.findAll({
+        include: [{model: Category}]
+    }).then(products => {
+        res.render('admin/products/products', {products: products, user: req.session.user});
+    });
+});
 
 router.post('/products/save', (req,res) => {
     let title = req.body.title;
@@ -66,7 +70,7 @@ router.post('/products/save', (req,res) => {
         price: price,
         categoryId: category
     }).then( () => {
-        res.redirect('/products');
+        res.redirect('/products', {user: req.session.user});
     });
 });
 
@@ -77,7 +81,7 @@ router.get('/product/:slug', (req,res) => {
     }}).then( product => {
         if(product != undefined){
             Category.findAll().then(categories => {
-                res.render('productPage', {product: product, categories: categories});
+                res.render('productPage', {product: product, categories: categories, user: req.session.user});
             });
         }else{
             res.redirect('/');
@@ -92,15 +96,15 @@ router.post('/products/delete', (req,res) => {
             Product.destroy({where:{
                 id: id
             }}).then(() => {
-                res.redirect('/products');
+                res.redirect('/products', {user: req.session.user});
             }).catch(e => {
-                res.redirect('/');
+                res.redirect('/', {user: req.session.user});
             })
         }else{
-            res.redirect('/');
+            res.redirect('/', {user: req.session.user});
         }
     }else{
-        res.redirect('/');
+        res.redirect('/', {user: req.session.user});
     }
     
 });
@@ -110,7 +114,7 @@ router.get('/admin/products/edit/:id', (req,res) => {
     if(id != isNaN){
         Product.findByPk(id).then(product => {
             Category.findAll().then(categories =>{
-                res.render('admin/products/editProduct', {product: product, categories: categories});
+                res.render('admin/products/editProduct', {product: product, categories: categories, user: req.session.user});
             })
         })    
     }
@@ -127,7 +131,7 @@ router.post('/products/update', (req,res) => {
         {title: newTitle, description: newDescription, price: newPrice, category: newCategory},
         {where: {id:id}}))
         .then(() => {
-        res.redirect('/products');
+        res.redirect('/products', {user: req.session.user});
     })
 
 });
