@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const connection = require('../database/database');
 const Category = require('../categories/Category');
+const User = require('../users/User');
 
 const Product = connection.define('products', {
     title:{
@@ -25,9 +26,10 @@ const Product = connection.define('products', {
     }
 })
 
-Product.belongsTo(Category);
+Product.belongsTo(Category)//, User);
 Category.hasMany(Product);
-
+//Product.belongsTo(User);
+//User.hasMany(Product);
 
 Product.sync({force: false});
 

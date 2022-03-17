@@ -4,6 +4,7 @@ const slugify = require('slugify');
 const Category = require('../categories/Category');
 const Product = require('./Product');
 
+
 router.get('/products/page/:num', (req,res) => {
     let page = req.params.num;
     let offset;
@@ -45,6 +46,10 @@ router.get('/admin/products/new', (req,res) => {
         res.render('admin/products/newProduct', {categories: categories});
     })
 });
+
+// router.get('/admin/products', (req,res) =>{
+//     ROTA PARA GERENCIAR PRODUTOS 
+// });
 
 router.post('/products/save', (req,res) => {
     let title = req.body.title;
