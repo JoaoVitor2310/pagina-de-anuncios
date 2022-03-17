@@ -15,7 +15,7 @@
                     <label class="mt-2">Descrição:</label>
                     <textarea name="description" rows="5" placeholder="Digite a descrição do produto" class="form-control mt-2" id="product"></textarea>
                     <label class="mt-2">Preço:</label>
-                    <input type="number" name="price" placeholder="Digite o preço em reais" class="form-control mt-2">
+                    <input type="number" name="price" placeholder="Digite o preço em reais" class="form-control mt-2" format="currency" precision="2">
                     <label class="mt-2">Categoria:</label>
                     <select name="category" class="form-control">
                         <% categories.forEach(category => { %>

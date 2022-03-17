@@ -12,8 +12,8 @@
             <tr>
                 <th>Id</th>
                 <th>Título</th>
-                <th>Slug</th>
-                <th>Category</th>
+                <th>Preço</th>
+                <th>Categoria</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -22,7 +22,7 @@
                 <tr>
                     <td><%= product.id %></td>
                     <td><%= product.title %></td>
-                    <td><%= product.slug %></td>
+                    <td>R$<%= product.price %></td>
                     <td><%= product.category.title %></td>
                     <td>
                         <form method="POST" action="/products/delete" class="d-inline" onsubmit="confirmarDelecao(event, this)">

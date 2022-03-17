@@ -4,11 +4,39 @@ const slugify = require('slugify');
 const Category = require('../categories/Category');
 const Product = require('./Product');
 
-router.get('/products', (req,res) => {
-    Product.findAll({
-        include: [{model: Category}]
+router.get('/products/page/:num', (req,res) => {
+    let page = req.params.num;
+    let offset;
+    if(page == isNaN || page == 1){
+        offset = 0;
+    }else{
+        offset = (Number(page) - 1) * 4;
+    }
+    Product.findAndCountAll({
+        limit: 4,
+        offset: offset,
+        order: [
+            ['id', 'DESC']
+        ]
+        //include: [{model: Category}]
     }).then( products => {
-        res.render('admin/products/products', {products: products});
+        let next;
+        if(offset + 4 >= products.count){
+            next = false;
+        }else{
+            next = true;
+        }
+        let result = {
+            page: Number(page),
+            next: next,
+            products: products
+        }
+        // if(Number(page) == 0 || Number(page) ==1 ){
+        //     res.render('index', {products: products});
+        // }
+        Category.findAll().then(categories => {
+            res.render('admin/products/pageProducts', {result: result, categories: categories});
+        });
     });
 });
 
@@ -50,6 +78,53 @@ router.get('/product/:slug', (req,res) => {
             res.redirect('/');
         }
     });
+});
+
+router.post('/products/delete', (req,res) => {
+    let id = req.body.id;
+    if(id != undefined){
+        if(id != isNaN){
+            Product.destroy({where:{
+                id: id
+            }}).then(() => {
+                res.redirect('/products');
+            }).catch(e => {
+                res.redirect('/');
+            })
+        }else{
+            res.redirect('/');
+        }
+    }else{
+        res.redirect('/');
+    }
+    
+});
+
+router.get('/admin/products/edit/:id', (req,res) => {
+    let id = req.params.id;
+    if(id != isNaN){
+        Product.findByPk(id).then(product => {
+            Category.findAll().then(categories =>{
+                res.render('admin/products/editProduct', {product: product, categories: categories});
+            })
+        })    
+    }
+});
+
+router.post('/products/update', (req,res) => {
+    let id = req.body.id;
+    let newTitle = req.body.title;
+    //let newPhoto = req.body.photo;
+    let newDescription = req.body.description;
+    let newPrice = req.body.price;
+    let newCategory = req.body.category;
+    Product.update((
+        {title: newTitle, description: newDescription, price: newPrice, category: newCategory},
+        {where: {id:id}}))
+        .then(() => {
+        res.redirect('/products');
+    })
+
 });
 
 module.exports = router;
