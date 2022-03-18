@@ -16,10 +16,10 @@ router.post('/categories/save', (req,res) => {
             title: title,
             slug: slugify(title)
         }).then(() => {
-            res.redirect('/categories/page/1', {user: req.session.user});
+            res.redirect('/categories/page/1');
         })
     }else{  
-        res.redirect('/admin/categories/new', {user: req.session.user});
+        res.redirect('/admin/categories/new');
     }
 });
 
@@ -74,10 +74,10 @@ router.get('/admin/categories/edit/:id', (req,res) => {
         Category.findByPk(id).then(category => {
             res.render('admin/categories/editCategory', {category: category, user: req.session.user});
         }).catch(error => {
-            res.redirect('/categories', {user: req.session.user});
+            res.redirect('/categories');
         })
     }else{
-        res.redirect('/categories', {user: req.session.user});
+        res.redirect('/categories');
     }
 });
 
@@ -100,11 +100,11 @@ router.post('/categories/delete', (req, res) => {
             categoryId: id
         }}).then(() => {
             Category.destroy({where:{id: id}}).then(() => {
-                res.redirect('/', {user: req.session.user});
+                res.redirect('/');
             })
         })
     }).catch(() => {
-        res.redirect('/categories', {user: req.session.user});
+        res.redirect('/categories');
     })
 });
 

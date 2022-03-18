@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const slugify = require('slugify');
+const { default: slugify } = require('slugify');
+
 const Category = require('../categories/Category');
 const Product = require('./Product');
+const User = require('../users/User');
+
 const adminAuth = require('../middlewares/adminAuth');
 
 router.get('/products/page/:num', (req,res) => {
@@ -41,26 +44,36 @@ router.get('/products/page/:num', (req,res) => {
     });
 });
 
-router.get('/admin/products/new', (req,res) => {
+router.get('/admin/products/new', adminAuth, (req,res) => {
     Category.findAll().then(categories => {
         res.render('admin/products/newProduct', {categories: categories, user: req.session.user});
     })
 });
 
-router.get('/admin/products', adminAuth, (req,res) =>{
-    Product.findAll({
-        include: [{model: Category}]
-    }).then(products => {
-        res.render('admin/products/products', {products: products, user: req.session.user});
-    });
+// router.get('/admin/products', adminAuth, (req,res) =>{
+//     Product.findAll({
+//         include: [{model: Category}]
+//     }).then(products => {
+//         res.render('admin/products/products', {products:     products, user: req.session.user});
+//     });
+// });
+
+router.get('/admin/myProducts/:id', adminAuth, (req,res) =>{
+    let userId = req.params.id;
+
+    Product.findAll({where: {userId: userId}, include: [{model: Category}]}
+    ).then(products => {
+        res.render('admin/products/myProducts', {products: products, user: req.session.user});
+    })
 });
 
-router.post('/products/save', (req,res) => {
+router.post('/products/save', adminAuth, (req,res) => {
     let title = req.body.title;
     //let photo = req.body.photo;
     let description = req.body.description;
     let price = req.body.price;
     let category = req.body.category;
+    let userId = req.body.userId;
 
     Product.create({
         title: title,
@@ -68,9 +81,10 @@ router.post('/products/save', (req,res) => {
         // photo: photo,
         description: description,
         price: price,
-        categoryId: category
+        categoryId: category,
+        userId: userId
     }).then( () => {
-        res.redirect('/products', {user: req.session.user});
+        res.redirect('/admin/myProducts');
     });
 });
 
@@ -96,15 +110,15 @@ router.post('/products/delete', (req,res) => {
             Product.destroy({where:{
                 id: id
             }}).then(() => {
-                res.redirect('/products', {user: req.session.user});
+                res.redirect('/products');
             }).catch(e => {
-                res.redirect('/', {user: req.session.user});
+                res.redirect('/');
             })
         }else{
-            res.redirect('/', {user: req.session.user});
+            res.redirect('/');
         }
     }else{
-        res.redirect('/', {user: req.session.user});
+        res.redirect('/');
     }
     
 });
@@ -113,27 +127,52 @@ router.get('/admin/products/edit/:id', (req,res) => {
     let id = req.params.id;
     if(id != isNaN){
         Product.findByPk(id).then(product => {
-            Category.findAll().then(categories =>{
-                res.render('admin/products/editProduct', {product: product, categories: categories, user: req.session.user});
-            })
+            if(product != undefined){
+                Category.findAll().then(categories =>{
+                    res.render('admin/products/editProduct', {product: product, categories: categories, user: req.session.user});
+                })
+            }else{
+                res.redirect('/');
+            }
+            
         })    
     }
 });
 
 router.post('/products/update', (req,res) => {
     let id = req.body.id;
-    let newTitle = req.body.title;
+    let title = req.body.title;
     //let newPhoto = req.body.photo;
-    let newDescription = req.body.description;
-    let newPrice = req.body.price;
-    let newCategory = req.body.category;
-    Product.update((
-        {title: newTitle, description: newDescription, price: newPrice, category: newCategory},
-        {where: {id:id}}))
-        .then(() => {
-        res.redirect('/products', {user: req.session.user});
+    let description = req.body.description;
+    let price = req.body.price;
+    let category = req.body.category;
+    let userId = req.body.userId;
+    User.findAll().then(() => {
+        Product.findAll().then(() => {
+            Product.update((
+                {title: title,
+                slug: slugify(title),
+                description: description,
+                price: price,
+                categoryId: category},
+                {where:{
+                    id: id
+                }})).then(() => {
+                res.redirect('/admin/myProducts/' + id);
+            }).catch(e => {
+                console.log(`
+                            ERRO NO Product
+                `)
+        }).catch(e => {
+            console.log(`
+                        ERRO NO product
+            `)
+        
+    }).catch(e => {
+        console.log(`
+                    ERRO NO USER
+        `)
     })
-
 });
 
 module.exports = router;

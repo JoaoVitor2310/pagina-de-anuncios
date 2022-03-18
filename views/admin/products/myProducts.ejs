@@ -1,0 +1,50 @@
+<%- include ('../../partials/header.ejs') %> 
+<body>
+    <%- include ('../../partials/navbar.ejs') %>
+<div class="container">
+    <hr>
+    <h2>Meus produtos</h2>
+    <a href="/admin/products/new" class="btn btn-primary"> Cadastrar novo produto</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach( product => { %>
+                <tr>
+                    <td><%= product.id %></td>
+                    <td><%= product.title %></td>
+                    <td>R$<%= product.price %></td>
+                    <td><%= product.category.title %></td>
+                    <td>
+                        <a href="/admin/products/edit/<%= product.id %>" class="btn btn-warning">Editar</a>
+                        
+                        <form method="POST" action="/products/delete" class="d-inline" onsubmit="confirmarDelecao(event, this)">
+                            <input type="hidden" name="id" value="<%= product.id %>">
+                            <button class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+<%- include ('../../partials/footer.ejs') %>
+<script>
+    function confirmarDelecao(event, form){
+        event.preventDefault();
+        let decision = confirm("Você quer deletar este artigo?");
+        if(decision){
+            form.submit();
+        }
+    }
+</script>

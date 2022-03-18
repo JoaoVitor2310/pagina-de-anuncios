@@ -26,12 +26,12 @@ router.post('/users/create', (req,res) => {
                 email: email,
                 password: hash
             }).then(() => {
-                res.redirect('/', {user: req.session.user});
+                res.redirect('/login');
             }).catch(e => {
                 res.render('/admin/users/create', {user: req.session.user});
             })
         }else{
-            res.redirect('/admin/users/create', {user: req.session.user});
+            res.redirect('/admin/users/create');
         }
     })
     //res.render('admin/users/createUser');
@@ -53,12 +53,13 @@ router.post('/authenticate', (req,res) => {
                     id: user.id,
                     email: user.email
                 }
-                res.redirect('/admin/products');
+                let id = user.id;
+                res.redirect('/admin/myproducts/' + id);
             }else{
-                res.redirect('/login', {user: req.session.user});
+                res.redirect('/login');
             }
         }else{
-            res.redirect('/login', {user: req.session.user});
+            res.redirect('/login');
         }
     });
     //res.render('admin/users/login');
@@ -66,7 +67,7 @@ router.post('/authenticate', (req,res) => {
 
 router.get('/logout', adminAuth,(req, res) => {
     req.session.user = undefined;
-    res.redirect('/', {user: req.session.user});
+    res.redirect('/');
 });
 
 module.exports = router;

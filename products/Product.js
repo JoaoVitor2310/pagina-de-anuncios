@@ -26,10 +26,10 @@ const Product = connection.define('products', {
     }
 })
 
-Product.belongsTo(Category)//, User);
+Product.belongsTo(Category);//, User);
 Category.hasMany(Product);
-//Product.belongsTo(User);
-//User.hasMany(Product);
+Product.belongsTo(User);
+User.hasMany(Product);
 
 Product.sync({force: false});
 
