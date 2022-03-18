@@ -61,7 +61,9 @@ router.get('/admin/products/new', adminAuth, (req,res) => {
 router.get('/admin/myProducts/:id', adminAuth, (req,res) =>{
     let userId = req.params.id;
 
-    Product.findAll({where: {userId: userId}, include: [{model: Category}]}
+    Product.findAll({where: {userId: userId}, include: [{model: Category}], order:[
+        ['id', 'DESC']
+    ]}
     ).then(products => {
         res.render('admin/products/myProducts', {products: products, user: req.session.user});
     })
@@ -84,7 +86,7 @@ router.post('/products/save', adminAuth, (req,res) => {
         categoryId: category,
         userId: userId
     }).then( () => {
-        res.redirect('/admin/myProducts');
+        res.redirect('/admin/myProducts/1');
     });
 });
 
@@ -146,33 +148,19 @@ router.post('/products/update', (req,res) => {
     let description = req.body.description;
     let price = req.body.price;
     let category = req.body.category;
-    let userId = req.body.userId;
-    User.findAll().then(() => {
-        Product.findAll().then(() => {
-            Product.update((
-                {title: title,
-                slug: slugify(title),
-                description: description,
-                price: price,
-                categoryId: category},
-                {where:{
-                    id: id
-                }})).then(() => {
-                res.redirect('/admin/myProducts/' + id);
-            }).catch(e => {
-                console.log(`
-                            ERRO NO Product
-                `)
+    Product.update(
+        {title: title,
+        slug: slugify(title),
+        description: description,
+        price: price,
+        categoryId: category},
+        {where:{
+            id: id
+        }}).then(() => {
+            res.redirect('/admin/myProducts/1');
         }).catch(e => {
-            console.log(`
-                        ERRO NO product
-            `)
-        
-    }).catch(e => {
-        console.log(`
-                    ERRO NO USER
-        `)
-    })
+            console.log(e);
+        })
 });
 
 module.exports = router;

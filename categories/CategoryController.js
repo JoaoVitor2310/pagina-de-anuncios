@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const slugify = require('slugify');
+const isOwner = require('../middlewares/isOwner');
 
 const Product = require('../products/Product');
 const Category = require('./Category');
@@ -12,12 +13,20 @@ router.get('/admin/categories/new', (req,res) => {
 router.post('/categories/save', (req,res) => {
     let title = req.body.title;
     if(title != undefined){
-        Category.create({
-            title: title,
-            slug: slugify(title)
-        }).then(() => {
-            res.redirect('/categories/page/1');
+        Category.findOne({where: {
+            title: title
+        }}).then( category => {
+            if(category == undefined){
+                Category.create({
+                    title: title,
+                    slug: slugify(title)
+                }).then(() => {
+                    res.redirect('/categories/page/1');
+                })
+            }else
+            res.redirect('/admin/categories/new');
         })
+        
     }else{  
         res.redirect('/admin/categories/new');
     }
@@ -62,10 +71,10 @@ router.get('/categories/page/:num', (req,res) => {
     // });
 });
 
-router.get('/admin/categories', (req,res) => {
+router.get('/admin/categories', isOwner, (req,res) => {
     Category.findAll().then(categories => {
         res.render('admin/categories/categories', {categories: categories, user: req.session.user})
-    });
+    }); // Só eu vou acessar essa rota para manter um controle das categorias
 });
 
 router.get('/admin/categories/edit/:id', (req,res) => {

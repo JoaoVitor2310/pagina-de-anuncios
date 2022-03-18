@@ -5,7 +5,11 @@
         <hr>
         <h1>Bem vindo ao MarketPlace de produtos usados!</h1>
         <hr>
-        <a href="/admin/categories/new" class="btn btn-success">Nova categoria</a>
+        <% if(user != undefined){ %>
+            <% if(user.id == 1){ %>
+                <a href="/admin/categories/new" class="btn btn-success">Nova categoria</a>
+            <% } %>
+        <% } %>
         <a href="/admin/products/new" class="btn btn-success">Novo produto</a>            
         <% products.forEach( product => { %>
             <div class="card mt-3">
@@ -23,9 +27,6 @@
             <div class="row mb-4 mt-3" style="float: right">
                 <a href="/products/page/2">Próxima página</a>
             </div>
-        <% if(user != undefined){ %>
-            <div>USER FOI PASSADO COM SUCESSO</div>
-        <% } %>
     </div>
     
 
