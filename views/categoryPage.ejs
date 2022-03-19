@@ -1,0 +1,27 @@
+<%- include ('./partials/header.ejs') %> 
+
+<body>
+    <%- include ('./partials/navbar.ejs') %> 
+    <hr>
+    <div class="container">
+        <hr>
+        <h1><%= category.title %></h1>
+        <hr>
+        <% products.forEach(product => { %>
+            <% if(product.categoryId == category.id){ %>
+                <div class="card mt-3">
+                    <div class="card-header bg-info">
+                        <h2><%= product.title %></h2>
+                    </div>
+                    <div class="card-body">
+                        <%- product.description %>
+                        <strong>Preço: R$<%= product.price %></strong>
+                    </div>
+                </div>
+            <% } %> 
+            
+        <% }) %>
+    </div>
+</body>
+
+<%- include ('./partials/footer.ejs') %>

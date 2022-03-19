@@ -71,6 +71,21 @@ router.get('/categories/page/:num', (req,res) => {
     // });
 });
 
+router.get('/category/:slug', (req,res) => {
+    let slug = req.params.slug;
+    Category.findOne({where:{
+        slug: slug
+    }}).then( category => {
+        if(category != undefined){
+            Product.findAll().then(products => {
+                res.render('categoryPage', {products: products, category: category, user: req.session.user});
+            });
+        }else{
+            res.redirect('/');
+        }
+    });
+});
+
 router.get('/admin/categories', isOwner, (req,res) => {
     Category.findAll().then(categories => {
         res.render('admin/categories/categories', {categories: categories, user: req.session.user})
