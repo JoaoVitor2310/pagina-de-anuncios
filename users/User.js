@@ -13,9 +13,6 @@ const User = connection.define('users', {
     },
 })
 
-// Product.belongsTo(User);
-// User.hasMany(Product);
-
 User.sync({force: false});
 
 module.exports = User;

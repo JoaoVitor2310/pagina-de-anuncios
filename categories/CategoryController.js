@@ -46,7 +46,6 @@ router.get('/categories/page/:num', (req,res) => {
         order: [
             ['id', 'DESC']
         ]
-        //include: [{model: Category}]
     }).then(categories => {
         let next;
         if(offset + 4 >= categories.count){
@@ -59,16 +58,10 @@ router.get('/categories/page/:num', (req,res) => {
             next: next,
             categories: categories
         }
-        // if(Number(page) == 0 || Number(page) ==1 ){
-        //     res.render('index', {products: products});
-        // }
         Product.findAll().then(products => {
             res.render('admin/categories/pagecategories', {result: result, products: products, user: req.session.user});
         });
     });
-    // Category.findAll().then(categories => {
-    //     res.render('admin/categories/pageCategories', {categories: categories});
-    // });
 });
 
 router.get('/category/:slug', (req,res) => {
@@ -89,7 +82,7 @@ router.get('/category/:slug', (req,res) => {
 router.get('/admin/categories', isOwner, (req,res) => {
     Category.findAll().then(categories => {
         res.render('admin/categories/categories', {categories: categories, user: req.session.user})
-    }); // Só eu vou acessar essa rota para manter um controle das categorias
+    }); // Somente EU vou acessar essa rota para manter um controle das categorias
 });
 
 router.get('/admin/categories/edit/:id', (req,res) => {

@@ -3,7 +3,6 @@ const router = express.Router();
 const User = require('./User');
 const bcrypt = require('bcryptjs');
 
-
 router.get('/admin/users', (req,res) => {
     User.findAll().then( users => {
         res.render('admin/users/usersList', {users: users, user: req.session.user});
@@ -17,7 +16,6 @@ router.get('/admin/users/create', (req,res) => {
 router.post('/users/create', (req,res) => {
     let email = req.body.email;
     let password = req.body.password;
-
     User.findOne({where:{email: email}}).then(user => {
         if(user == undefined){
             let salt = bcrypt.genSaltSync(10);
@@ -34,7 +32,6 @@ router.post('/users/create', (req,res) => {
             res.redirect('/admin/users/create');
         }
     })
-    //res.render('admin/users/createUser');
 });
 
 router.get('/login', (req,res) => {
@@ -62,7 +59,6 @@ router.post('/authenticate', (req,res) => {
             res.redirect('/login');
         }
     });
-    //res.render('admin/users/login');
 });
 
 router.get('/logout', adminAuth,(req, res) => {

@@ -6,10 +6,10 @@
         <% result.products.rows.forEach( product => { %>
             <div class="card mt-3">
                 <div class="card-header ">
-                    <h2><%= product.title %></h2>
+                    <h2><%= product.title %> | R$<%= product.price %></h2>
                 </div>
                 <div class="card-body">
-                    Imagem
+                    <%- product.description %>
                 </div>
                 <div class="card-footer">
                     <a href="/product/<%= product.slug %>" class="btn btn-success">Ler artigo</a>

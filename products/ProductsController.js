@@ -22,7 +22,6 @@ router.get('/products/page/:num', (req,res) => {
         order: [
             ['id', 'DESC']
         ]
-        //include: [{model: Category}]
     }).then( products => {
         let next;
         if(offset + 4 >= products.count){
@@ -35,9 +34,6 @@ router.get('/products/page/:num', (req,res) => {
             next: next,
             products: products
         }
-        // if(Number(page) == 0 || Number(page) ==1 ){
-        //     res.render('index', {products: products});
-        // }
         Category.findAll().then(categories => {
             res.render('admin/products/pageProducts', {result: result, categories: categories, user: req.session.user});
         });
@@ -49,14 +45,6 @@ router.get('/admin/products/new', adminAuth, (req,res) => {
         res.render('admin/products/newProduct', {categories: categories, user: req.session.user});
     })
 });
-
-// router.get('/admin/products', adminAuth, (req,res) =>{
-//     Product.findAll({
-//         include: [{model: Category}]
-//     }).then(products => {
-//         res.render('admin/products/products', {products:     products, user: req.session.user});
-//     });
-// });
 
 router.get('/admin/myProducts/:id', adminAuth, (req,res) =>{
     let userId = req.params.id;
@@ -71,7 +59,6 @@ router.get('/admin/myProducts/:id', adminAuth, (req,res) =>{
 
 router.post('/products/save', adminAuth, (req,res) => {
     let title = req.body.title;
-    //let photo = req.body.photo;
     let description = req.body.description;
     let price = req.body.price;
     let category = req.body.category;
@@ -80,7 +67,6 @@ router.post('/products/save', adminAuth, (req,res) => {
     Product.create({
         title: title,
         slug: slugify(title),
-        // photo: photo,
         description: description,
         price: price,
         categoryId: category,
@@ -122,7 +108,6 @@ router.post('/products/delete', (req,res) => {
     }else{
         res.redirect('/');
     }
-    
 });
 
 router.get('/admin/products/edit/:id', (req,res) => {
@@ -136,7 +121,6 @@ router.get('/admin/products/edit/:id', (req,res) => {
             }else{
                 res.redirect('/');
             }
-            
         })    
     }
 });
@@ -144,7 +128,6 @@ router.get('/admin/products/edit/:id', (req,res) => {
 router.post('/products/update', (req,res) => {
     let id = req.body.id;
     let title = req.body.title;
-    //let newPhoto = req.body.photo;
     let description = req.body.description;
     let price = req.body.price;
     let category = req.body.category;
@@ -156,11 +139,12 @@ router.post('/products/update', (req,res) => {
         categoryId: category},
         {where:{
             id: id
-        }}).then(() => {
+        }}
+    ).then(() => {
             res.redirect('/admin/myProducts/1');
-        }).catch(e => {
+    }).catch(e => {
             console.log(e);
-        })
+    })
 });
 
 module.exports = router;
