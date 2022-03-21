@@ -44,7 +44,7 @@ app.get('/',(req,res) => {
     });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log('O servidor está online na porta:' + port);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log('O servidor está online na porta:' + PORT);
 });
