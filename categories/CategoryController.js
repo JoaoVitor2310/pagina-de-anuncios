@@ -59,7 +59,7 @@ router.get('/categories/page/:num', (req,res) => {
             categories: categories
         }
         Product.findAll().then(products => {
-            res.render('admin/categories/pagecategories', {result: result, products: products, user: req.session.user});
+            res.render('admin/categories/pageCategories', {result: result, products: products, user: req.session.user});
         });
     });
 });

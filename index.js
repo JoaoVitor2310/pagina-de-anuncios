@@ -12,7 +12,7 @@ const Product = require('./products/Product');
 const User = require('./users/User');
 
 app.set('view engine', 'ejs');
-app.use(express.static('views'));
+app.use(express.static('public'));
 
 app.use(session({
     secret: 'anything', cookie: {maxAge: 259200000}
