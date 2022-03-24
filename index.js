@@ -6,6 +6,7 @@ const productsController = require('./products/ProductsController');
 const usersController = require('./users/UsersController');
 const session = require('express-session');
 const cors = require('cors');
+const apiController = require('./API/ApiController');
 
 const Category = require('./categories/Category');
 const Product = require('./products/Product');
@@ -34,6 +35,7 @@ app.use(cors());
 app.use('/', categoriesController);
 app.use('/', productsController);
 app.use('/', usersController);
+app.use('/api', apiController);
 
 app.get('/',(req,res) => {
     Product.findAll({
