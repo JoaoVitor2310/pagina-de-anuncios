@@ -25,19 +25,63 @@ GIF
 
 ##Endpoints(todos possuem um prefixo: http://pagina-de-anuncios.herokuapp.com/api):
 ### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados. Respostas: json com produtos OU erro 404 não encontrado.
+-Responsável por retornar todos os produtos cadastrados no banco de dados. 
+Respostas:  
+-JSON com produtos  
+-Erro 404 não encontrado.
 
 ### GET /categories
--Responsável por retornar todas as categorias cadastradas no banco de dados. Respostas: json com categorias OU erro 404 não encontrado.
+-Responsável por retornar todas as categorias cadastradas no banco de dados.  
+Respostas:  
+-JSON com categorias  
+-Erro 404 não encontrado.
 
 ### GET /product/ + ID
--Responsável por retornar um produto específico através do ID. Respostas: json do produto OU erro 400 sintaxe errada OU erro 404 não encontrado.
+-Responsável por retornar um produto específico através do ID. O id deve ser mandado direto na URL.  
+Respostas:  
+-JSON do produto e links de interação  
+-Erro 400 sintaxe errada  
+-Erro 404 não encontrado.
+
+### GET /product/ + ID
+-Responsável por retornar uma categoria específica através do ID. O id deve ser mandado direto na URL.  
+Respostas:  
+-JSON da categoria e links de interação  
+-Erro 400 sintaxe errada  
+-Erro 404 não encontrado.  
 
 ### POST /auth
--Responsável logar um usuário, que já deve ter sido criado antes no sistema pelo login normal. Respostas: mensagem de login com sucesso e o token de autenticação OU erro 400 sintaxe errada OU erro 401 falha interna OU 401 credenciais inválidas OU 404 não encontrado
+-Responsável por logar um usuário por 4 horas na API, que já deve ter sido criado antes no sistema pelo login normal. O usuário deve mandar um JSON com o email e senha no corpo como no exemplo a seguir:
+ ```
+{
+    "email": "joaovitormatosgouveia@gmail.com",
+    "password": "senha"
+}
+```
+Respostas:  
+-Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir. 
+-Erro 400 sintaxe errada.  
+-Erro 401 falha interna.
+-Erro 401 credenciais inválidas.  
+-Erro 404 não encontrado.
 
 ### POST /product
--Responsável por cadastrar um produto no banco de dados. Nesse endpoint, o usuário deve estar logado enviar no corpo. Respostas: OK status 200 OU erro 404 não encontrado OU erro 400 sintase incorreta.
+-Responsável por cadastrar um novo produto no banco de dados, o usuário precisa estar logado, e enviar os dados como no exemplo a seguir:
+ ```
+{
+    "title": "Microondas",
+    "description": "Usado por 1 ano",
+    "price": 300,
+    "categoryId": 2
+}
+
+```
+Respostas:  
+-Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir. 
+-Erro 400 sintaxe errada.  
+-Erro 401 falha interna.
+-Erro 401 credenciais inválidas.  
+-Erro 404 não encontrado.
 
 ### GET /products
 -Responsável por retornar todos os produtos cadastrados no banco de dados
