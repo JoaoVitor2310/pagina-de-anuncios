@@ -51,12 +51,17 @@ Respostas:
 -Erro 404 não encontrado.  
 
 ### POST /auth
--Responsável por logar um usuário por 4 horas na API, que já deve ter sido criado antes no sistema pelo login normal. O usuário deve mandar um JSON com o email e senha no corpo como no exemplo a seguir:
+-Responsável por logar um usuário por 4 horas na API, que já deve ter sido criado antes no sistema pelo login normal da rota /login. O usuário deve mandar um JSON com o email e senha no corpo, e armazenar no localStorage como no exemplo a seguir utilizando o Axios:
  ```
-{
-    "email": "joaovitormatosgouveia@gmail.com",
-    "password": "senha"
-}
+axios.post('http://pagina-de-anuncios.herokuapp.com/api/auth', {
+    email,
+    password
+}).then(res => {
+    let token = res.data.token;
+    localStorage.setItem('token', token);
+}).catch(error => {
+    alert('Credenciais inválidas');
+})
 ```
 Respostas:  
 -Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir. 
@@ -66,21 +71,30 @@ Respostas:
 -Erro 404 não encontrado.
 
 ### POST /product
--Responsável por cadastrar um novo produto no banco de dados, o usuário precisa estar logado, e enviar os dados como no exemplo a seguir:
- ```
-{
+-Responsável por cadastrar um novo produto no banco de dados, o usuário precisa estar logado pela rota auth e enviar o token e os dados como no exemplo do Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
+
+axios.post('http://pagina-de-anuncios.herokuapp.com/api/auth', {
     "title": "Microondas",
     "description": "Usado por 1 ano",
     "price": 300,
     "categoryId": 2
-}
-
+}, axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Produto cadastrado com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
 ```
 Respostas:  
--Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir. 
+-Mensagem 'OK' e o código 200. 
 -Erro 400 sintaxe errada.  
--Erro 401 falha interna.
--Erro 401 credenciais inválidas.  
 -Erro 404 não encontrado.
 
 ### GET /products
