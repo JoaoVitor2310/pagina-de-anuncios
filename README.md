@@ -79,7 +79,7 @@ let axiosConfig = {
     }
 }
 
-axios.post('http://pagina-de-anuncios.herokuapp.com/api/auth', {
+axios.post('http://pagina-de-anuncios.herokuapp.com/api/product', {
     "title": "Microondas",
     "description": "Usado por 1 ano",
     "price": 300,
