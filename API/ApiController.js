@@ -10,16 +10,34 @@ const apiAuth = require('../middlewares/apiAuth');
 const JWTSecret = 'asodihaihfduhsfdgiu';
 
 router.get('/products', (req,res) => {
+    
+    let HATEOAS = [
+        {
+            href: 'http://pagina-de-anuncios.herokuapp.com/api/product',
+            method: 'POST',
+            rel: 'add_product'
+        },
+    ]
+    
     Product.findAll().then(products => {
         res.status(200);
-        res.json(products);
+        res.json({products: products, _links: HATEOAS});
     })
 });
 
 router.get('/categories', (req,res) => {
+    
+    let HATEOAS = [
+        {
+            href: 'http://pagina-de-anuncios.herokuapp.com/api/category',
+            method: 'POST',
+            rel: 'add_category'
+        },
+    ]
+    
     Category.findAll().then(categories => {
         res.status(200);
-        res.json(categories);
+        res.json({categories: categories, _links: HATEOAS});
     })
 });
 
@@ -37,7 +55,21 @@ router.get('/product/:id', (req,res) => {
             if((product == null) || (product == undefined)){
                 res.sendStatus(404);
             }else{
-                res.json(product);
+
+                let HATEOAS = [
+                    {
+                        href: 'http://pagina-de-anuncios.herokuapp.com/api/product/' + id,
+                        method: 'DELETE',
+                        rel: 'delete_product'
+                    },
+                    {
+                        href: 'http://pagina-de-anuncios.herokuapp.com/api/product/' + id,
+                        method: 'PUT',
+                        rel: 'edit_product'
+                    }
+                ]
+
+                res.json({product: product, _links: HATEOAS});
             }
         })
     }
@@ -56,7 +88,21 @@ router.get('/category/:id', (req,res) => {
             if((category == null) || (category == undefined)){
                 res.sendStatus(404);
             }else{
-                res.json(category);
+
+                let HATEOAS = [
+                    {
+                        href: 'http://pagina-de-anuncios.herokuapp.com/api/category/' + id,
+                        method: 'DELETE',
+                        rel: 'delete_category'
+                    },
+                    {
+                        href: 'http://pagina-de-anuncios.herokuapp.com/api/category/' + id,
+                        method: 'PUT',
+                        rel: 'edit_category'
+                    }
+                ]
+
+                res.json({category: category, _links: HATEOAS});
             }
         })
     }
@@ -87,7 +133,7 @@ router.post('/product', apiAuth, (req,res) => {
     }
 });
 
-router.post('/category', (req,res) => {
+router.post('/category', apiAuth, (req,res) => {
     let {title} = req.body;
     if((title == null) || (title == undefined)){
         res.sendStatus(404);
@@ -100,9 +146,9 @@ router.post('/category', (req,res) => {
     }
 });
 
-router.delete('/product/:id', (req,res) => {
+router.delete('/product/:id', apiAuth, (req,res) => {
     let {id} = req.params;
-    
+    let userId = req.id;
     if(isNaN(id)){
         res.sendStatus(400);
     }else{
@@ -112,20 +158,22 @@ router.delete('/product/:id', (req,res) => {
         }}).then(product => {
             if((product == null) || (product == undefined)){
                 res.sendStatus(404);
-            }else{
+            }else if(product.userId != userId){
+                res.sendStatus(401);
+            }
+            else{
                 Product.destroy({where: {id: id}})
                 .then(() => {
                     res.sendStatus(200);
-                });
+                })
             }
         })
     }
-
 });
 
-router.delete('/category/:id', (req,res) => {
+router.delete('/category/:id', apiAuth, (req,res) => {
     let {id} = req.params;
-    
+    let userId = req.id;
     if(isNaN(id)){
         res.sendStatus(400);
         res.json({error: 'Id inválido'});
@@ -136,7 +184,10 @@ router.delete('/category/:id', (req,res) => {
         }}).then(category => {
             if((category == null) || (category == undefined)){
                 res.sendStatus(404);
-            }else{
+            }else if(category.userId != 1){
+                res.sendStatus(401);
+            }
+            else{
                 Category.destroy({where: {id: id}})
                 .then(() => {
                     res.sendStatus(200);
