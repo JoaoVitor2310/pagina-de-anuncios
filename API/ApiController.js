@@ -83,7 +83,6 @@ router.get('/category/:id', (req,res) => {
     let {id} = req.params;
     if(isNaN(id)){
         res.sendStatus(400);
-        res.send('Id inválido')
     }else{
         id = Number(id);
         Category.findOne({where: {
