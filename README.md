@@ -16,8 +16,8 @@
 ### Conclusão: 
 -Adicionar novas funcionalidades seria interessante, como carrinho de compras, mas não é o objetivo.
 -Consegui aprender bastante sobre essas tecnologias, e pretendo continuar evoluindo. 
+![pagina-de-anuncios](https://user-images.githubusercontent.com/80935917/160253607-77c1dd4a-9e75-4141-869e-95f374d17287.gif)
 
-GIF
 
 ## Link: https://pagina-de-anuncios.herokuapp.com/ 
 
