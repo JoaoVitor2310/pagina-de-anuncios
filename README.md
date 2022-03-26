@@ -144,7 +144,7 @@ Respostas:
 -Erro 404 não encontrado.  
 
 ### DELETE /category/ + ID
--Responsável por deletar uma categoria no banco de dados, o usuário precisa ser com o com id = 1 para ter um controle, e deve estar logado pela rota auth e enviar o token e o dado(id) como no exemplo do Axios a seguir:  
+-Responsável por deletar uma categoria no banco de dados, o usuário precisa ter o id = 1, nesse caso sou eu, para ter um controle das categorias, e deve estar logado pela rota auth e enviar o token e o dado(id) como no exemplo do Axios a seguir:  
 ```
 let axiosConfig = {
     headers: {
@@ -166,8 +166,53 @@ Respostas:
 -Erro 401 acesso proibido.  
 -Erro 404 não encontrado. 
 
-### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados
+### PUT /product/ + ID
+-Responsável por editar um produto no banco de dados, o usuário precisa estar logado pela rota auth, enviar o token para sabermos qual produto ele pode alterar e também enviar os dados que deseja alterar(title, description, price e categoryId), mas não precisa necessariamente editar todos, basta editar um dado, segue um exemplo com o Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
 
-### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados
+axios.put('http://pagina-de-anuncios.herokuapp.com/api/product/2', {
+    "title": "Microondas semi novo",
+    "description": "Comprei e usei por 1 ano, mas segue em boas condições!",
+}, axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Produto editado com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
+```
+Respostas:  
+-Mensagem 'OK' e o código 200. 
+-Erro 400 sintaxe errada.  
+-Erro 404 não encontrado.  
+-Erro 401 não autorizado
+
+### PUT /category/ + ID
+-Responsável por editar uma categoria no banco de dados, o usuário precisa estar logado pela rota auth, enviar o token, mas somente o usuário com id = 1(Nesse caso sou eu) poderá editar para manter um controle, e também enviar os dados do title que deseja alterar, segue um exemplo com o Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
+
+axios.put('http://pagina-de-anuncios.herokuapp.com/api/category/4', {
+    "title": "Esportes e afins"
+}, axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Produto editado com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
+```
+Respostas:  
+-Mensagem 'OK' e o código 200. 
+-Erro 400 sintaxe errada.  
+-Erro 404 não encontrado.  
+-Erro 401 não autorizado
