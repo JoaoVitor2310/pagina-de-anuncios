@@ -71,7 +71,7 @@ Respostas:
 -Erro 404 não encontrado.
 
 ### POST /product
--Responsável por cadastrar um novo produto no banco de dados, o usuário precisa estar logado pela rota auth e enviar o token e os dados como no exemplo do Axios a seguir:  
+-Responsável por cadastrar um novo produto no banco de dados, o usuário precisa estar logado pela rota auth e enviar o token e os dados(title, description, price e categoryId) como no exemplo do Axios a seguir:  
 ```
 let axiosConfig = {
     headers: {
@@ -97,14 +97,74 @@ Respostas:
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.
 
-### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados
+### POST /category
+-Responsável por cadastrar uma nova category no banco de dados, o usuário precisa estar logado pela rota auth e enviar o token e os dados(title) como no exemplo do Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
 
-### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados
+axios.post('http://pagina-de-anuncios.herokuapp.com/api/category', {
+    "title": "Esportes"
+}, axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Categoria cadastrada com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
+```
+Respostas:  
+-Mensagem 'OK' e o código 200. 
+-Erro 400 sintaxe errada.  
+-Erro 404 não encontrado.
 
-### GET /products
--Responsável por retornar todos os produtos cadastrados no banco de dados
+### DELETE /product/ + ID
+-Responsável por deletar um produto do próprio usuário no banco de dados, o usuário precisa estar logado pela rota auth e enviar o token e o dado(id) como no exemplo do Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
+
+axios.delete('http://pagina-de-anuncios.herokuapp.com/api/product/2', axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Produto deletado com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
+```
+Respostas:  
+-Mensagem 'OK' e o código 200. 
+-Erro 400 sintaxe errada.  
+-Erro 404 não encontrado.  
+
+### DELETE /category/ + ID
+-Responsável por deletar uma categoria no banco de dados, o usuário precisa ser com o com id = 1 para ter um controle, e deve estar logado pela rota auth e enviar o token e o dado(id) como no exemplo do Axios a seguir:  
+```
+let axiosConfig = {
+    headers: {
+        Authorization: "Bearer" + localStorage.getItem('token')
+    }
+}
+
+axios.delete('http://pagina-de-anuncios.herokuapp.com/api/category/2', axiosConfig).then(res => {
+    if(res.status == 200){
+        alert('Categoria deletada com sucesso');
+    }
+}).catch(error => {
+        alert('Credenciais inválidas');
+})
+```
+Respostas:  
+-Mensagem 'OK' e o código 200. 
+-Erro 400 sintaxe errada.  
+-Erro 401 acesso proibido.  
+-Erro 404 não encontrado. 
 
 ### GET /products
 -Responsável por retornar todos os produtos cadastrados no banco de dados
