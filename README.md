@@ -1,5 +1,8 @@
 # pagina-de-anuncios
 
+![pagina-de-anuncios](https://user-images.githubusercontent.com/80935917/160253624-303c5b72-0a9b-4fb8-92d1-23c07ee37f19.gif)
+
+
 ## Introdução: Bem vindo ao projeto de uma página de anuncios, nele eu fiz o frontend bem básico para poder focar no backend, pois me identifico mais do que o front, e então com alguns conhecimentos aprendidos resolvi criar esse projeto.
 
 ### Descrição: Página de anúncios com CRUD completo, podendo:
@@ -16,8 +19,6 @@
 ### Conclusão: 
 -Adicionar novas funcionalidades seria interessante, como carrinho de compras, mas não é o objetivo.
 -Consegui aprender bastante sobre essas tecnologias, e pretendo continuar evoluindo. 
-![pagina-de-anuncios](https://user-images.githubusercontent.com/80935917/160253607-77c1dd4a-9e75-4141-869e-95f374d17287.gif)
-
 
 ## Link: https://pagina-de-anuncios.herokuapp.com/ 
 
