@@ -3,7 +3,7 @@
 ![pagina-de-anuncios](https://user-images.githubusercontent.com/80935917/160253624-303c5b72-0a9b-4fb8-92d1-23c07ee37f19.gif)
 
 
-## Introdução: Bem vindo ao projeto de uma página de anuncios, nele eu fiz o frontend bem básico para poder focar no backend, pois me identifico mais do que o front, e então com alguns conhecimentos aprendidos resolvi criar esse projeto.
+## Introdução: Bem-vindo ao projeto de uma página de anuncios, nele eu fiz o frontend bem básico para poder focar no backend, pois me identifico mais do que o front, e então com alguns conhecimentos aprendidos resolvi criar esse projeto.
 
 ### Descrição: Página de anúncios com CRUD completo, podendo:  
 -Criar usuários com email e senha protegida com hash.  
