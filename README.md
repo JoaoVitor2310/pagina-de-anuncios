@@ -1,23 +1,24 @@
 # pagina-de-anuncios
 
-## Introdução: Bem vindo ao projeto de uma página de anuncios, nele eu fiz o frontend bem básico para poder focar no backend, pois me identifico mais do que o front, e então com alguns conhecimentos aprendidos resolvi criar esse projeto.
+![pagina-de-anuncios](https://user-images.githubusercontent.com/80935917/160253624-303c5b72-0a9b-4fb8-92d1-23c07ee37f19.gif)
 
-### Descrição: Página de anúncios com CRUD completo, podendo:
--Criar usuários com email e senha protegida com hash.
--Criar novas categorias de produtos
+## ATENÇÃO! HOSPEDAGEM DA HEROKU TEMPORARIAMENTE NÃO FUNCIONANDO, JÁ ESTOU A PROCURA DE OUTRA PARA MANTER O PROJETO NO AR!  
+## Introdução: Bem-vindo ao projeto de uma página de anuncios, nele eu fiz o frontend bem básico para poder focar no backend, pois me identifico mais do que o front, e então com alguns conhecimentos aprendidos resolvi criar esse projeto.
+
+### Descrição: Página de anúncios com CRUD completo, podendo:  
+-Criar usuários com email e senha protegida com hash.  
+-Criar novas categorias de produtos  
 -Cadastrar, ler, atualizar e deletar produtos.  
 
 ### Objetivo: Exercitar os conhecimentos do backend:
--Node: com rotas, middlewares e autenticação para o sistema de login com BCRYPT e JWT.
--Banco de dados, com o MySQL através do Sequelize.
--API: Criação de uma API com os dados do banco de dados e chegar ao RESTFUL
+-Node: com rotas, middlewares e autenticação para o sistema de login com BCRYPT e JWT.  
+-Banco de dados, com o MySQL através do Sequelize.  
+-API: Criação de uma API com os dados do banco de dados e chegar ao RESTFUL  
 -O frontend foi feito com Bootstrap para ficar simples, TinyMCE para edição do texto e EJS para as views.  
 
 ### Conclusão: 
--Adicionar novas funcionalidades seria interessante, como carrinho de compras, mas não é o objetivo.
--Consegui aprender bastante sobre essas tecnologias, e pretendo continuar evoluindo. 
-
-GIF
+-Adicionar novas funcionalidades seria interessante, como carrinho de compras, mas não é o objetivo.  
+-Consegui aprender bastante sobre essas tecnologias, e pretendo continuar evoluindo.  
 
 ## Link: https://pagina-de-anuncios.herokuapp.com/ 
 
@@ -64,7 +65,7 @@ axios.post('http://pagina-de-anuncios.herokuapp.com/api/auth', {
 })
 ```
 Respostas:  
--Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir. 
+-Mensagem de login com sucesso e o token de autenticação, que deve ser armazenado(localStorage) para conseguir fazer as interações a seguir.  
 -Erro 400 sintaxe errada.  
 -Erro 401 falha interna.
 -Erro 401 credenciais inválidas.  
@@ -93,7 +94,7 @@ axios.post('http://pagina-de-anuncios.herokuapp.com/api/product', {
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.
 
@@ -117,7 +118,7 @@ axios.post('http://pagina-de-anuncios.herokuapp.com/api/category', {
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.
 
@@ -139,7 +140,7 @@ axios.delete('http://pagina-de-anuncios.herokuapp.com/api/product/2', axiosConfi
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.  
 
@@ -161,7 +162,7 @@ axios.delete('http://pagina-de-anuncios.herokuapp.com/api/category/2', axiosConf
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 401 acesso proibido.  
 -Erro 404 não encontrado. 
@@ -187,7 +188,7 @@ axios.put('http://pagina-de-anuncios.herokuapp.com/api/product/2', {
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.  
 -Erro 401 não autorizado
@@ -212,7 +213,7 @@ axios.put('http://pagina-de-anuncios.herokuapp.com/api/category/4', {
 })
 ```
 Respostas:  
--Mensagem 'OK' e o código 200. 
+-Mensagem 'OK' e o código 200.  
 -Erro 400 sintaxe errada.  
 -Erro 404 não encontrado.  
 -Erro 401 não autorizado
